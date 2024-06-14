@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login and Upload</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+    <div id="paymentStatus"></div>
+
+    <h1>Upload Document</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="document">Document:</label>
+        <input type="file" id="document" name="document" required>
+        <br>
+        <button type="submit">Upload</button>
+    </form>
+    <div id="uploadStatus"></div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const paymentStatusDiv = document.getElementById('paymentStatus');
+        const uploadForm = document.getElementById('uploadForm');
+        const uploadStatusDiv = document.getElementById('uploadStatus');
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('http://localhost:5000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                paymentStatusDiv.innerHTML = `Payment Status: ${data.paymentStatus}`;
+            } else {
+                paymentStatusDiv.innerHTML = `Error: ${data.message}`;
+            }
+        });
+
+        uploadForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const document = document.getElementById('document').files[0];
+
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('password', password);
+            formData.append('document', document);
+
+            const response = await fetch('http://localhost:5000/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                uploadStatusDiv.innerHTML = `${data.message}`;
+            } else {
+                uploadStatusDiv.innerHTML = `Error: ${data.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
