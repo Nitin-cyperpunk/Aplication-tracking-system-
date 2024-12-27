@@ -10,7 +10,7 @@ The Resume Buddy application is a Streamlit-based tool designed to assist users 
 ## How to Clone the Repository
 To clone this repository, use the following command in your terminal:
 bash
-git clone https://github.com/USERNAME/REPOSITORY_NAME.git
+git clone (https://github.com/Nitin-cyperpunk/Aplication-tracking-system-.git)
 Replace `USERNAME` with your GitHub username and `REPOSITORY_NAME` with the name of the repository.
 
 ## How to Run the Application
